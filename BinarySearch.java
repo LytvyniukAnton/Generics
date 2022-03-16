@@ -1,65 +1,31 @@
-package Lesson14;
-
-import java.util.Arrays;
-import java.util.Scanner;
-
-public class BinarySearch {
-
-    public static void main(String args[]) {
-        int counter, num, item, array[], first, last;
-
-        //Создаем объект Scanner для считывания чисел, введенных пользователем
-        Scanner input = new Scanner(System.in);
-        System.out.println("Введите количество элементов массива: ");
-        num = input.nextInt();
-
-        // Создаем массив введенного пользователем размера
-        array = new int[num];
-
-        System.out.println("Введите " + num + " чисел");
-
-        //Заполняем массив, вводя элементы в консоль
-        for (counter = 0; counter < num; counter++) {
-            array[counter] = input.nextInt();
-        }
-
-        // сортируем элементы массива, так как для бинарного поиска
-        // элементы массива должны быть отсортированными
-        Arrays.sort(array);
-
-        System.out.println("Введите элемент для бинарного поиска: ");
-        item = input.nextInt();
-        first = 0;
-        last = num - 1;
-
-        // метод принимает начальный и последний индекс, а также число для поиска
-        binarySearch(array, first, last, item);
+public class Generics {
+    public static void main(String[] args) {
+          
+        Accountable<String> acc1 = new Account("1235rwr", 5000);
+        Account acc2 = new Account("2373", 4300);
+        System.out.println(acc1.getId());
+        System.out.println(acc2.getId());
     }
-
-    // бинарный поиск
-    public static void binarySearch(int[] array, int first, int last, int item) {
-        int position;
-        int comparisonCount = 1;    // для подсчета количества сравнений
-
-        // для начала найдем индекс среднего элемента массива
-        position = (first + last) / 2;
-
-        while ((array[position] != item) && (first <= last)) {
-            comparisonCount++;
-            if (array[position] > item) {  // если число заданного для поиска
-                last = position - 1; // уменьшаем позицию на 1.
-            } else {
-                first = position + 1;    // иначе увеличиваем на 1
-            }
-            position = (first + last) / 2;
-        }
-        if (first <= last) {
-            System.out.println(item + " является " + ++position + " элементом в массиве");
-            System.out.println("Метод бинарного поиска нашел число после " + comparisonCount
-                    + " сравнений");
-        } else {
-            System.out.println("Элемент не найден в массиве. Метод бинарного поиска закончил работу после "
-                    + comparisonCount + " сравнений");
-        }
+}
+interface Accountable<T>{
+    T getId();
+    int getSum();
+    void setSum(int sum);
+}
+class Account implements Accountable<String>{
+     
+    private final String id;
+    private int sum;
+     
+    Account(String id, int sum){
+        this.id = id;
+        this.sum = sum;
     }
+     
+    @Override
+    public String getId() { return id; }
+    @Override
+    public int getSum() { return sum; }
+    @Override
+    public void setSum(int sum) { this.sum = sum; }
 }
